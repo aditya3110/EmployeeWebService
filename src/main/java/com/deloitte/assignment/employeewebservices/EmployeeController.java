@@ -1,5 +1,6 @@
 package com.deloitte.assignment.employeewebservices;
 
+import java.io.Console;
 import java.net.URI;
 import java.util.Iterator;
 import java.util.List;
@@ -7,9 +8,11 @@ import java.util.ListIterator;
 import java.util.Optional;
 import java.util.logging.Logger;
 
+import javax.validation.Valid;
 
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
@@ -27,6 +30,11 @@ public class EmployeeController {
 @Autowired
 private EmployeeRepository employeeRepository;
 
+@Value("${employee.minsalary}")
+private int minsalary;
+
+@Value("${employee.maxletter}")
+private int maxletter;
 
 
 @GetMapping("/employees")
@@ -49,9 +57,14 @@ public EntityModel<Optional<Employee>> getOne(@PathVariable int id) throws Excep
 
 }
 
+
 @PostMapping("/employees")
-public  ResponseEntity<Object> createEmployee(@RequestBody Employee employee) throws Exception{
+public  ResponseEntity<Object> createEmployee(@Valid @RequestBody Employee employee) throws Exception{
    
+	
+	
+	if(employee.getEmpName().length() > maxletter || employee.getSalary() < minsalary)
+		throw new Exception("Invalid Entry");
 	
 	Employee savedEmployee = employeeRepository.save(employee);
  
