@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.deloitte.assignment.employeewebservices.validation.Validation;
+import com.deloitte.assignment.employeewebservices.Validation;
 
 @RestController
 public class EmployeeController {
