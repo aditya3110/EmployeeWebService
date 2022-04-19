@@ -1,4 +1,4 @@
-package com.deloitte.assignment.employeewebservices.validation;
+package com.deloitte.assignment.employeewebservices;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
