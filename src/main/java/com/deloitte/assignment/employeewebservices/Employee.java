@@ -3,6 +3,10 @@ package com.deloitte.assignment.employeewebservices;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
+
 
 @Entity
 public class Employee {
@@ -11,8 +15,14 @@ public class Employee {
 	@GeneratedValue
 	private int empId;
 	
+	
+	
+	
 	private String empName;
+	
 	private String designation;
+	
+	
 	private double salary;
 	
 	
