@@ -1,1 +1,1 @@
-insert into employee values (1,'Analyst','Aditya pandey','100');
+insert into employee values (1000,'Analyst','Aditya pandey','100');
