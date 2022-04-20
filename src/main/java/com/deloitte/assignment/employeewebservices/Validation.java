@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.deloitte.assignment.employeewebservices.Employee;
 
-@Component
+@Service
 public class Validation{
 
 @Value("${employee.minSalary}")
