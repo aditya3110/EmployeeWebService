@@ -34,7 +34,10 @@ public void setEmployee(Employee employee) {
 
 public Boolean validateEntry(){
 	
-	if(employee.getEmpName().length() > maxLetter && employee.getSalary() < minSalary)
+	if(employee.getEmpName().length() > maxLetter)
+		return false;
+	
+	if(employee.getSalary() < minSalary)
 		return false;
 	
 	return true;
