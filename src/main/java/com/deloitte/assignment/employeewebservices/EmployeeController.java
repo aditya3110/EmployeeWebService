@@ -8,8 +8,6 @@ import java.util.ListIterator;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-import javax.validation.Valid;
-
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,9 +26,14 @@ import com.deloitte.assignment.employeewebservices.Validation;
 
 @RestController
 public class EmployeeController {
+	
+
 
 @Autowired
 private EmployeeRepository employeeRepository;
+
+@Autowired
+private Validation validate;
 
 
 @GetMapping("/employees")
@@ -57,8 +60,6 @@ public EntityModel<Optional<Employee>> getOne(@PathVariable int id) throws Excep
 @PostMapping("/employees")
 public  ResponseEntity<Object> createEmployee(@RequestBody Employee employee) throws Exception{
    
-	
-	Validation validate=new Validation();
 	validate.setEmployee(employee);
 	
   Boolean isValid=validate.validateEntry();
