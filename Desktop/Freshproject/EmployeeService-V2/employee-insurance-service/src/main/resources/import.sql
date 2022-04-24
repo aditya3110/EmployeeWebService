@@ -1,0 +1,1 @@
+insert into Insurance values(10000,900,'active');
