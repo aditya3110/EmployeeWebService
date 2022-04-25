@@ -2,10 +2,11 @@ package com.deloitte.assignments.employeeinsuranceservice;
 
 import java.net.URI;
 import java.util.List;
-
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,9 +42,13 @@ public class InsuranceController {
 		return repository.findAll();
 	}
 	
+	@Async("InsuranceAsyncExecutor")
 	@GetMapping("/employees/insurance/create/{id}")
-	public void createInsurance(@PathVariable int id) {
-	     insuranceService.createOne(id);
+	public void createInsurance(@PathVariable int id) throws Exception {
+		
+	
+		System.out.println(Thread.currentThread().getName());
+		insuranceService.createOne(id);
 }
 	
 	@PutMapping("/employees/insurance/update/{id}")
