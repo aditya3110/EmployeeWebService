@@ -68,7 +68,7 @@ public void setEmployee(Employee employee) {
 
 public Boolean validateEntry(){
 	
-	System.out.println(maxLetter);
+	
 	if(employee.getEmpName().length() > maxLetter)
 		return false;
 	

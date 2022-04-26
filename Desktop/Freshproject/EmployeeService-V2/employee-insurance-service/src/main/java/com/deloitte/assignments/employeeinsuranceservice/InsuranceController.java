@@ -48,7 +48,8 @@ public class InsuranceController {
 		
 	
 		System.out.println(Thread.currentThread().getName());
-		insuranceService.createOne(id);
+	    insuranceService.createOne(id);
+	    	
 }
 	
 	@PutMapping("/employees/insurance/update/{id}")

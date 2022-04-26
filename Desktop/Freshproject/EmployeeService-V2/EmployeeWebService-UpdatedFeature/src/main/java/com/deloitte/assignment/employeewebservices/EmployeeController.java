@@ -2,6 +2,7 @@ package com.deloitte.assignment.employeewebservices;
 
 import java.io.Console;
 import java.net.URI;
+
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
@@ -9,11 +10,13 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.http.ResponseEntity;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,7 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+
+
 import com.deloitte.assignment.employeewebservices.Validation;
+
+import com.deloitte.assignment.employeewebservices.rabbitMQ.MessagingConfig;
 
 @RestController
 public class EmployeeController {
@@ -34,8 +41,9 @@ public class EmployeeController {
 @Autowired
 private EmployeeRepository employeeRepository;
 
+
 @Autowired
-private EmployeeInsuranceProxy insuranceProxy;
+private RabbitTemplate template;
 
 @Autowired
 private Validation validate;
@@ -77,12 +85,14 @@ public  ResponseEntity<Object> createEmployee(@RequestBody Employee employee) th
 		
 	
 	Employee savedEmployee = employeeService.addEmployee(employee);
- 
+   
+	
   if(savedEmployee==null)
     throw new Exception("Invalid Entry");
   
-  
-  insuranceProxy.createInsurance(savedEmployee.getEmpId());
+ 
+    template.convertAndSend(MessagingConfig.exchangeName, MessagingConfig.keyName,new InsuranceServiceRequest(savedEmployee.getEmpId()));
+
   
    URI location=ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedEmployee.getEmpId())
   .toUri();
